@@ -1,0 +1,14 @@
+{
+        "manifest_version": 2,
+
+        "name": "Unicode Encryption",
+        "description": "This encrypts a text box to be in unicode characters that mimic English.",
+        "version": "1.0",
+
+        "browser_action": {
+                "default_popup": "popup.html"
+        },
+        "permissions": [
+                "activeTab"
+        ]
+}

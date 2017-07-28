@@ -1,5 +1,5 @@
 (function() {
-        ENCRPYTION_MAP = {
+        var ENCRPYTION_MAP = {
                 'a': ['ª', '∀', '⟑', 'α'],
                 'b': ['฿', 'В', 'ь', 'β'],
                 'c': ['©', '∁', '⊂', '☪', '¢'],
@@ -28,6 +28,14 @@
                 'z': ['Ꙁ', 'Ⴠ', 'Հ'],
         }
 
+        var DECRYPTION_MAP = {}
+
+        _.mapObject(ENCRPYTION_MAP, function(val, key) {
+                _.each(val, function(element) {
+                        DECRYPTION_MAP[element] = key;
+                });
+        });
+
 
         function unicodeEncrypt(input) {
                 return _.map(Array.from(input.toLowerCase()), function(letter) {
@@ -39,6 +47,25 @@
                 }).join('')
         }
 
+        function unicodeDecrypt(input) {
+                return _.map(Array.from(input), function(letter) {
+                        var decrypt = DECRYPTION_MAP[letter];
+                        if (decrypt) {
+                                return decrypt;
+                        }
+                        return letter;
+                }).join('')
+        }
+
+        $('#input-form input[name="main"]').on('input', function() {
+                var input = $('#input-form input[name="main"]').val();
+                console.log(input);
+
+                var decrypt = unicodeDecrypt(input);
+                console.log(decrypt);
+                
+                $('#input-form input[name="main"]').val(unicodeEncrypt(decrypt));
+        });
         
 
         $('#input-form').submit(function(event) {

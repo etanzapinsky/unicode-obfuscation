@@ -59,11 +59,7 @@
 
         $('#input-form input[name="main"]').on('input', function() {
                 var input = $('#input-form input[name="main"]').val();
-                console.log(input);
-
                 var decrypt = unicodeDecrypt(input);
-                console.log(decrypt);
-                
                 $('#input-form input[name="main"]').val(unicodeEncrypt(decrypt));
         });
         
@@ -75,6 +71,16 @@
                 $('#output').text(unicodeEncrypt(input));
         });
 
-        
+        var i = 0;
+        window.setInterval(function() {
+                var input = $('#content').text();
+                var current = unicodeDecrypt(input.slice(i, i+1));
+                $('#content').text(input.slice(0, i) + unicodeEncrypt(current) + input.slice(i+1));
+                i++;
 
+                // reset end to start encrypting the string again
+                if (i >= input.length) {
+                        i = 0;
+                }
+        }, 700);
 })();

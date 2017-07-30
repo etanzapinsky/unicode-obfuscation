@@ -6,7 +6,10 @@
         "version": "1.0",
 
         "browser_action": {
-                "default_popup": "popup.html"
+                "default_icon": "icons/off.png"
+        },
+        "background": {
+                "scripts": ["js/background.js"]
         },
         "permissions": [
                 "activeTab"

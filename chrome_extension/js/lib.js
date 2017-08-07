@@ -6,12 +6,12 @@ var ENCRPYTION_MAP = {
         'e': ['ℇ', '℮', '∃', '∈', '∑', '⋿', '€', 'ϱ'],
         'f': ['⨍', '⨗', '⫭', '៛', 'ϝ', '𐅿'],
         'g': ['₲', 'ց', 'Ԍ'],
-        'h': ['ℏ', '⫲', '⫳', '♓︎', '₶'],
+        'h': ['ℏ', '⫲', '⫳', '₶'],
         'i': ['ℹ︎', '⫯', 'ι', 'ї'],
         'j': ['⌡', 'ϳ', 'ј'],
         'k': ['₭', 'κ', 'Ϗ'],
         'l': ['∟', '₤', 'լ'],
-        'm': ['≞', '⋔', '⨇', '⩋', '⫙', '♏︎', '₥'],
+        'm': ['≞', '⋔', '⨇', '⩋', '⫙', '₥'],
         'n': ['∏', '∩', 'η'],
         'o': ['º', '⦿', '☉', 'ο', 'օ'],
         'p': ['℗', '♇', '₱', 'ρ', 'բ'],
@@ -20,7 +20,7 @@ var ENCRPYTION_MAP = {
         's': ['∫', '$', 'ѕ'],
         't': ['⊺', '⟙', '✝', '♱', '♰', 'τ', 'է'],
         'u': ['µ', '∪', '∐', '⨃'],
-        'v': ['∨', '√', '⩔', '♈︎'],
+        'v': ['∨', '√', '⩔'],
         'w': ['⨈', '⩊', '⫝', '₩', 'ω'],
         'x': ['×', '⨯', '☓', '✗'],
         'y': ['¥', '⑂', 'Ⴤ', 'ӱ'],
@@ -35,9 +35,14 @@ _.mapObject(ENCRPYTION_MAP, function(val, key) {
         });
 });
 
+var splitter = new GraphemeSplitter();
 
 function unicodeEncrypt(input) {
-        return _.map(Array.from(input.toLowerCase()), function(letter) {
+        if (!input) {
+                return '';
+        }
+        
+        return _.map(splitter.splitGraphemes(input.toLowerCase()), function(letter) {
                 var choices = ENCRPYTION_MAP[letter];
                 if (choices) {
                         return choices[_.random(choices.length-1)];
@@ -47,7 +52,11 @@ function unicodeEncrypt(input) {
 }
 
 function unicodeDecrypt(input) {
-        return _.map(Array.from(input), function(letter) {
+        if (!input) {
+                return '';
+        }
+        
+        return _.map(splitter.splitGraphemes(input), function(letter) {
                 var decrypt = DECRYPTION_MAP[letter];
                 if (decrypt) {
                         return decrypt;

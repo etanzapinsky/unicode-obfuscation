@@ -13,10 +13,8 @@
                                 $(emoji).text(unicode);
                         });
 
-                        // this input is definitely in local storage since this is the base
                         var input = clonedElement.text();
-                        var decrypt = unicodeDecrypt(input);
-                        element.text(unicodeEncrypt(decrypt));
+                        element.text(unicodeEncrypt(input));
 
                         var range = document.createRange();
                         range.selectNodeContents(element[0]);

@@ -4,7 +4,11 @@
         "name": "Unicode Encryption",
         "description": "This encrypts a text box to be in unicode characters that mimic English.",
         "version": "1.0",
-
+        "icons": {
+                "16": "icons/16.png",
+                "48": "icons/48.png",
+                "128": "icons/128.png"
+        },
         "browser_action": {
                 "default_icon": "icons/off.png"
         },

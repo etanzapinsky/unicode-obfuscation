@@ -47,28 +47,23 @@
                 sel.addRange(range);
         }
 
-        if (!injected) {
-                var obfuscationOn = false;
-                chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-                        obfuscationOn = message.obfuscationOn;
-                        console.log(obfuscationOn);
+        var obfuscationOn;
+        chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+                obfuscationOn = message.obfuscationOn;
 
-                        if (obfuscationOn) {
-                                processEncrypt();
-                        } else {
-                                processDecrypt();
-                        }
-                });
+                if (obfuscationOn) {
+                        processEncrypt();
+                } else {
+                        processDecrypt();
+                }
+        });
 
 
-                element.on('input', function(event) {
-                        if (obfuscationOn) {
-                                processEncrypt();
-                        } else {
-                                processDecrypt();
-                        }
-                });
-        }
+        element.on('input', function(event) {
+                if (obfuscationOn) {
+                        processEncrypt();
+                } else {
+                        processDecrypt();
+                }
+        });
 })();
-
-var injected = true;

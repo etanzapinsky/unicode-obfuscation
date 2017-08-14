@@ -7,7 +7,7 @@ function lastErrorCallback() {
 }
 
 function initTwitterUnicodeObfuscation(tab) {
-        var promise = new Promise(function(resolve, reject) {
+        return new Promise(function(resolve, reject) {
                 chrome.browserAction.setIcon({path: "icons/off.png"}, function() {
                         lastErrorCallback();
                         resolve();
@@ -40,7 +40,7 @@ function handleUnicodeObfuscationStart(tab) {
 }
 
 chrome.browserAction.onClicked.addListener(function(tab) {
-        var promise = new Promise(function(resolve, reject) {
+        new Promise(function(resolve, reject) {
                 chrome.storage.local.get({'OBFUSCATION_ON': false}, function(object) {
                         var on = object.OBFUSCATION_ON;
                         
@@ -56,21 +56,12 @@ chrome.browserAction.onClicked.addListener(function(tab) {
         });
 });
 
-chrome.tabs.onActivated.addListener(function(object) {
-        chrome.tabs.get(object.tabId, function(tab) {
-                handleUnicodeObfuscationStart(tab);
-        });
-});
-
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
         var url = new URL(tab.url);
 
-        if (url.host.includes('twitter.com')) {
-                var promise = new Promise(function(resolve, reject) {
-                        initTwitterUnicodeObfuscation(tab);
-                        resolve();
-                }).then(function() {
+        if (changeInfo.status === 'complete' && url.host.includes('twitter.com')) {
+                initTwitterUnicodeObfuscation(tab).then(function() {
                         handleUnicodeObfuscationStart(tab);
-                });
+                })
         }
 });

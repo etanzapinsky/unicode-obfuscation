@@ -62,6 +62,6 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
         if (changeInfo.status === 'complete' && url.host.includes('twitter.com')) {
                 initTwitterUnicodeObfuscation(tab).then(function() {
                         handleUnicodeObfuscationStart(tab);
-                })
+                });
         }
 });

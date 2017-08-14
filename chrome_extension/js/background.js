@@ -56,6 +56,12 @@ chrome.browserAction.onClicked.addListener(function(tab) {
         });
 });
 
+chrome.tabs.onActivated.addListener(function(object) {
+        chrome.tabs.get(object.tabId, function(tab) {
+                handleUnicodeObfuscationStart(tab);
+        });
+});
+
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
         var url = new URL(tab.url);
 

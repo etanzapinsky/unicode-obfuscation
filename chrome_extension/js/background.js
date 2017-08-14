@@ -1,37 +1,41 @@
+function lastErrorCallback() {
+    if (chrome.runtime.lastError) {
+        console.log(chrome.runtime.lastError.message);
+    } else {
+        // Tab exists
+    }
+}
+
+function initTwitterUnicodeObfuscation(tab) {
+        var promise = new Promise(function(resolve, reject) {
+                chrome.browserAction.setIcon({path: "icons/off.png"}, function() {
+                        lastErrorCallback();
+                        resolve();
+                });
+        }).then(function() {
+                chrome.tabs.executeScript(tab.id, {file:"js/jquery-3.2.1.min.js"}, lastErrorCallback);
+        }).then(function() {
+                chrome.tabs.executeScript(tab.id, {file:"js/underscore-1.8.3.min.js"}, lastErrorCallback);
+        }).then(function() {
+                chrome.tabs.executeScript(tab.id, {file:"js/grapheme-splitter-1.0.1.js"}, lastErrorCallback);
+        }).then(function() {
+                chrome.tabs.executeScript(tab.id, {file:"js/lib.js"}, lastErrorCallback);
+        }).then(function() {
+                chrome.tabs.executeScript(tab.id, {file:"js/twitter.js"}, lastErrorCallback);
+        });
+}
+
 function handleUnicodeObfuscationStart(tab) {
         chrome.storage.local.get({'OBFUSCATION_ON': false}, function(object) {
                 var on = object.OBFUSCATION_ON;
 
-                if(on){
-                        var promise = new Promise(function(resolve, reject) {
-                                chrome.browserAction.setIcon({path: "icons/on.png"}, resolve);
-                        }).then(function() {
-                                chrome.tabs.executeScript(tab.id, {file:"js/jquery-3.2.1.min.js"});
-                        }).then(function() {
-                                chrome.tabs.executeScript(tab.id, {file:"js/underscore-1.8.3.min.js"});
-                        }).then(function() {
-                                chrome.tabs.executeScript(tab.id, {file:"js/grapheme-splitter-1.0.1.js"});
-                        }).then(function() {
-                                chrome.tabs.executeScript(tab.id, {file:"js/lib.js"});
-                        }).then(function() {
-                                chrome.tabs.executeScript(tab.id, {file:"js/encrypt.js"});
-                        });
+                if (on) {
+                        chrome.browserAction.setIcon({path: "icons/on.png"}, lastErrorCallback);
+                } else {
+                        chrome.browserAction.setIcon({path: "icons/off.png"}, lastErrorCallback);
                 }
-                else{
-                        var promise = new Promise(function(resolve, reject) {
-                                chrome.browserAction.setIcon({path: "icons/off.png"}, resolve);
-                        }).then(function() {
-                                chrome.tabs.executeScript(tab.id, {file:"js/jquery-3.2.1.min.js"});
-                        }).then(function() {
-                                chrome.tabs.executeScript(tab.id, {file:"js/underscore-1.8.3.min.js"});
-                        }).then(function() {
-                                chrome.tabs.executeScript(tab.id, {file:"js/grapheme-splitter-1.0.1.js"});
-                        }).then(function() {
-                                chrome.tabs.executeScript(tab.id, {file:"js/lib.js"});
-                        }).then(function() {
-                                chrome.tabs.executeScript(tab.id, {file:"js/decrypt.js"});
-                        });
-                }
+
+                chrome.tabs.sendMessage(tab.id, {'obfuscationOn': on});
         });
 }
 
@@ -53,7 +57,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 });
 
 chrome.tabs.onActivated.addListener(function(object) {
-                chrome.tabs.get(object.tabId, function(tab) {
+        chrome.tabs.get(object.tabId, function(tab) {
                 handleUnicodeObfuscationStart(tab);
         });
 });
@@ -62,6 +66,11 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
         var url = new URL(tab.url);
 
         if (url.host.includes('twitter.com')) {
-                handleUnicodeObfuscationStart(tab);
+                var promise = new Promise(function(resolve, reject) {
+                        initTwitterUnicodeObfuscation(tab);
+                        resolve();
+                }).then(function() {
+                        handleUnicodeObfuscationStart(tab);
+                });
         }
 });

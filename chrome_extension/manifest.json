@@ -3,7 +3,7 @@
 
         "name": "Unicode Obfuscation",
         "description": "This obfucates the text input on Twitter to be in unicode characters that mimic their English counterparts.",
-        "version": "1.0",
+        "version": "0.1",
         "icons": {
                 "16": "icons/16.png",
                 "48": "icons/48.png",

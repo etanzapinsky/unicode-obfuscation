@@ -63,6 +63,11 @@ chrome.tabs.onActivated.addListener(function(object) {
 });
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
+        // On new tabs without URLs don't try to inject anything
+        if (!tab.url) {
+                return;
+        }
+    
         var url = new URL(tab.url);
 
         if (changeInfo.status === 'complete' && url.host.includes('twitter.com')) {

@@ -3,7 +3,7 @@ if (typeof obfuscate != 'function') {
         function obfuscate() {
                 var element = $('#tweet-box-home-timeline');
 
-                function processEncrypt() {
+                function processObfuscate() {
                         var clonedElement = element.clone();
 
                         // preprocess element's emoji symbols so cloned element has actual unicode
@@ -15,7 +15,7 @@ if (typeof obfuscate != 'function') {
                         });
 
                         var input = clonedElement.text();
-                        element.text(unicodeEncrypt(input));
+                        element.text(unicodeObfuscate(input));
 
                         var range = document.createRange();
                         range.selectNodeContents(element[0]);
@@ -26,7 +26,7 @@ if (typeof obfuscate != 'function') {
                         sel.addRange(range);
                 }
 
-                function processDecrypt() {
+                function processDeobfuscate() {
                         var clonedElement = element.clone();
 
                         // preprocess element's emoji symbols so cloned element has actual unicode
@@ -38,8 +38,8 @@ if (typeof obfuscate != 'function') {
                         });
 
                         var input = clonedElement.text();
-                        var decrypt = unicodeDecrypt(input);
-                        element.text(decrypt);
+                        var deobfuscate = unicodeDeobfuscate(input);
+                        element.text(deobfuscate);
 
                         var range = document.createRange();
                         range.selectNodeContents(element[0]);
@@ -55,18 +55,18 @@ if (typeof obfuscate != 'function') {
                         obfuscationOn = message.obfuscationOn;
 
                         if (obfuscationOn) {
-                                processEncrypt();
+                                processObfuscate();
                         } else {
-                                processDecrypt();
+                                processDeobfuscate();
                         }
                 });
 
 
                 element.on('input', function(event) {
                         if (obfuscationOn) {
-                                processEncrypt();
+                                processObfuscate();
                         } else {
-                                processDecrypt();
+                                processDeobfuscate();
                         }
                 });
         }

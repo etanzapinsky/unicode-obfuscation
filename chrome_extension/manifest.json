@@ -1,8 +1,8 @@
 {
         "manifest_version": 2,
 
-        "name": "Unicode Encryption",
-        "description": "This encrypts a text box to be in unicode characters that mimic English.",
+        "name": "Unicode Obfuscation",
+        "description": "This obfucates the text input on Twitter to be in unicode characters that mimic their English counterparts.",
         "version": "1.0",
         "icons": {
                 "16": "icons/16.png",
@@ -18,8 +18,6 @@
         "permissions": [
                 "activeTab",
                 "storage",
-                "tabs",
-                "http://*/",
-                "https://*/"
+                "https://twitter.com/"
         ]
 }

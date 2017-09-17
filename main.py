@@ -4,8 +4,8 @@ import sys
 import random
 
 
-ENCRYPTION_MAP = {
-    'a': ['ª', '∀', '⟑', 'α'],
+OBFUSCATION_MAP = {
+    'a': ['ª', '∀', '⟑', 'α', '@'],
     'b': ['฿', 'В', 'ь', 'β'],
     'c': ['©', '∁', '⊂', '☪', '¢'],
     'd': ['∂', '⫒', 'ძ'],
@@ -34,13 +34,13 @@ ENCRYPTION_MAP = {
 }
 
 
-def unicode_encrypt(str_to_encrypt):
-    return ''.join([random.choice(ENCRYPTION_MAP.get(c, c)) for c in str_to_encrypt.lower()])
+def unicode_obfuscate(str_to_obfuscate):
+    return ''.join([random.choice(OBFUSCATION_MAP.get(c, c)) for c in str_to_obfuscate.lower()])
 
 
 def main():
     for line in sys.stdin:
-        sys.stdout.write(unicode_encrypt(line))
+        sys.stdout.write(unicode_obfuscate(line))
 
 
 if __name__ == '__main__':

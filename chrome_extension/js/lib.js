@@ -1,5 +1,5 @@
-var ENCRPYTION_MAP = {
-        'a': ['ª', '∀', '⟑', 'α'],
+var OBFUSCATION_MAP = {
+        'a': ['ª', '∀', '⟑', 'α', '@'],
         'b': ['฿', 'В', 'ь', 'β'],
         'c': ['©', '∁', '⊂', '¢'],
         'd': ['∂', '⫒', 'ძ'],
@@ -27,23 +27,23 @@ var ENCRPYTION_MAP = {
         'z': ['Ꙁ', 'Ⴠ', 'Հ'],
 }
 
-var DECRYPTION_MAP = {}
+var DEOBFUSCATION_MAP = {}
 
-_.mapObject(ENCRPYTION_MAP, function(val, key) {
+_.mapObject(OBFUSCATION_MAP, function(val, key) {
         _.each(val, function(element) {
-                DECRYPTION_MAP[element] = key;
+                DEOBFUSCATION_MAP[element] = key;
         });
 });
 
 var splitter = new GraphemeSplitter();
 
-function unicodeEncrypt(input) {
+function unicodeObfuscate(input) {
         if (!input) {
                 return '';
         }
         
         return _.map(splitter.splitGraphemes(input.toLowerCase()), function(letter) {
-                var choices = ENCRPYTION_MAP[letter];
+                var choices = OBFUSCATION_MAP[letter];
                 if (choices) {
                         return choices[_.random(choices.length-1)];
                 }
@@ -51,15 +51,15 @@ function unicodeEncrypt(input) {
         }).join('')
 }
 
-function unicodeDecrypt(input) {
+function unicodeDeobfuscate(input) {
         if (!input) {
                 return '';
         }
         
         return _.map(splitter.splitGraphemes(input), function(letter) {
-                var decrypt = DECRYPTION_MAP[letter];
-                if (decrypt) {
-                        return decrypt;
+                var deobfuscate = DEOBFUSCATEION_MAP[letter];
+                if (deobfuscate) {
+                        return deobfuscate;
                 }
                 return letter;
         }).join('')
